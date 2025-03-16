@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 
-export function middleware(request) {
-  const Cookies = cookies();
+export async function middleware(request) {
+  const Cookies = await cookies();
 
   // Retrieve the 'auth' and 'id' cookies
   const isLoggedin = Cookies.get('auth');

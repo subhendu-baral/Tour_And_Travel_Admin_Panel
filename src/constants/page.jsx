@@ -31,11 +31,11 @@ export const navmenu = [
         },
         {
           title: "Manage Roles",
-          url: "/admin/user/roles",
+          url: "/admin/roles",
         },
         {
-          title: "Manage Permissions",
-          url: "/admin/user/permissions",
+          title: "View Permissions",
+          url: "/admin/view-permissions",
         },
       ],
     },

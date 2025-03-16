@@ -1,7 +1,6 @@
 import axios from "axios";
 import { redirect } from "next/navigation";
 import Cookies from "js-cookie";
-// import { RedirectType } from "next/dist/client/components/redirect";
 
 const axiosInstance = axios.create({
   baseURL: "/backend",

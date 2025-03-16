@@ -1,10 +1,10 @@
 "use client";
 
-import { ColumnDef } from "@tanstack/react-table";
 
 import { Checkbox } from "@/components/ui/checkbox";
 
 import { MoreHorizontal } from "lucide-react";
+import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -15,6 +15,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useContext, useState } from "react";
+import { UserInfo } from "./page";
+
 
 export const columns = [
   {
@@ -55,30 +58,41 @@ export const columns = [
     accessorKey: "status",
     header: "Status",
   },
+  {
+    accessorKey: "id",
+    header: "ID",
+  },
 
   {
     id: "actions",
     cell: ({ row }) => {
-      const payment = row.original;
+      const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+      const id = parseFloat(row.original.id)
+
+      const { setDeleteUserID, setIsDeleteOpen } = useContext(UserInfo);
+      const deleteUser = (id) => {
+        setDeleteUserID(id);
+        setIsDeleteOpen(true);
+      };
 
       return (
-        <DropdownMenu>
+        <DropdownMenu open={isMenuOpen} onOpenChange={setIsMenuOpen}>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
+        <Button variant="ghost" className="h-8 w-8 p-0">
+          <span className="sr-only">Open menu</span>
+          <MoreHorizontal className="h-4 w-4" />
+        </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              Copy payment ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+        <DropdownMenuItem>
+          <Link href={`/admin/user/edit/${id}`}>Edit</Link>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem >
+          <div className='cursor-pointer' onClick={() => deleteUser(id)}>Delete</div>
+        </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
